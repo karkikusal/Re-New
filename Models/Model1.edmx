@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="emp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="30" />
+          <Property Name="address" Type="varchar" MaxLength="20" />
+          <Property Name="contact" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="employee_salary_detail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="salary_paid" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="paid_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_employee_salary_detail_emp">
+          <End Role="emp" Type="Self.emp" Multiplicity="1" />
+          <End Role="employee_salary_detail" Type="Self.employee_salary_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emp">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee_salary_detail">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="employeeModelStoreContainer">
+          <EntitySet Name="emp" EntityType="Self.emp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="employee_salary_detail" EntityType="Self.employee_salary_detail" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_employee_salary_detail_emp" Association="Self.FK_employee_salary_detail_emp">
+            <End Role="emp" EntitySet="emp" />
+            <End Role="employee_salary_detail" EntitySet="employee_salary_detail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="employeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="emp">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="address" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="contact" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="employee_salary_detail" Relationship="Self.FK_employee_salary_detail_emp" FromRole="emp" ToRole="employee_salary_detail" />
+        </EntityType>
+        <EntityType Name="employee_salary_detail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="salary_paid" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="paid_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="emp" Relationship="Self.FK_employee_salary_detail_emp" FromRole="employee_salary_detail" ToRole="emp" />
+        </EntityType>
+        <Association Name="FK_employee_salary_detail_emp">
+          <End Role="emp" Type="Self.emp" Multiplicity="1" />
+          <End Role="employee_salary_detail" Type="Self.employee_salary_detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="emp">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee_salary_detail">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="employeeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="emps" EntityType="Self.emp" />
+          <EntitySet Name="employee_salary_detail" EntityType="Self.employee_salary_detail" />
+          <AssociationSet Name="FK_employee_salary_detail_emp" Association="Self.FK_employee_salary_detail_emp">
+            <End Role="emp" EntitySet="emps" />
+            <End Role="employee_salary_detail" EntitySet="employee_salary_detail" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="employeeModelStoreContainer" CdmEntityContainer="employeeEntities">
+          <EntitySetMapping Name="emps">
+            <EntityTypeMapping TypeName="employeeModel.emp">
+              <MappingFragment StoreEntitySet="emp">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employee_salary_detail">
+            <EntityTypeMapping TypeName="employeeModel.employee_salary_detail">
+              <MappingFragment StoreEntitySet="employee_salary_detail">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="salary_paid" ColumnName="salary_paid" />
+                <ScalarProperty Name="paid_date" ColumnName="paid_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,46 @@
+﻿@model List<WebApplication2.Models.employee_salary_detail>
+@{
+    ViewBag.Title = "index1";
+
+}
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<br />
+<br />
+<table class="table" border="1">
+    <tr>
+        <th>id</th>
+
+
+        <th>Employee_id</th>
+        <th>Employee Name</th>
+        <th>salary_paid</th>
+        <th>paid_date</th>
+        <th>Actions</th>
+    </tr>
+    @{ int sn = 0;}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@(++sn)</td>
+
+            <td>@(item.employee_id))</td>
+            <td>@(item.emp.name)</td>
+            <td>@(item.salary_paid)</td>
+            <td>@(item.paid_date)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.id })
+                @Html.ActionLink("Details", "Details", new { id = item.id })
+                @Html.ActionLink("Delete", "Delete", new { id = item.id })
+            </td>
+
+        </tr>
+    }
+    <tr>
+        <td>Total</td>
+        <td colspan="5">@(Model.Sum(x=>x.salary_paid))</td>
+    </tr>
+</table>
+
+

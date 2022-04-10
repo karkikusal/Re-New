@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="emp">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="30" />
+    <Property Name="address" Type="varchar" MaxLength="20" />
+    <Property Name="contact" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="employee_salary_detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="employee_id" Type="int" Nullable="false" />
+    <Property Name="salary_paid" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="paid_date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_employee_salary_detail_emp">
+    <End Role="emp" Type="Self.emp" Multiplicity="1" />
+    <End Role="employee_salary_detail" Type="Self.employee_salary_detail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="emp">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee_salary_detail">
+        <PropertyRef Name="employee_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="employeeModelStoreContainer">
+    <EntitySet Name="emp" EntityType="Self.emp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="employee_salary_detail" EntityType="Self.employee_salary_detail" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_employee_salary_detail_emp" Association="Self.FK_employee_salary_detail_emp">
+      <End Role="emp" EntitySet="emp" />
+      <End Role="employee_salary_detail" EntitySet="employee_salary_detail" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
