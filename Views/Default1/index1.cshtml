@@ -8,6 +8,15 @@
 </p>
 <br />
 <br />
+@using (Html.BeginForm("index1", "Default1", FormMethod.Get))
+            {
+                <label>From:</label>
+                <input type="date" name="startdate" />
+                <label>To:</label>
+                <input type="date" name="enddate" />
+                <input type="submit" class="btn" value="search"/>
+            }
+
 <table class="table" border="1">
     <tr>
         <th>id</th>
@@ -20,8 +29,8 @@
         <th>Actions</th>
     </tr>
     @{ int sn = 0;}
-    @foreach (var item in Model)
-    {
+@foreach (var item in Model)
+{
         <tr>
             <td>@(++sn)</td>
 

@@ -17,12 +17,17 @@ namespace WebApplication2.Controllers
             db = new employeeEntities();
         }
         // GET: Default
-        public ActionResult Index1()
+        public ActionResult Index1(string search,DateTime? startdate, DateTime? enddate)
         {
-            List<employee_salary_detail> data = db.employee_salary_detail.ToList();
+            //List<employee_salary_detail> data = db.employee_salary_detail.ToList();
+            //return View(data);
+            var data = db.employee_salary_detail.ToList();
+            if(startdate != null && enddate != null)
+            {
+                data= data.Where(x=> x.paid_date >=startdate && x.paid_date <= enddate).ToList();
+
+            }
             return View(data);
-
-
         }
 
         public ActionResult Create()
